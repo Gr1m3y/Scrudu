@@ -1,4 +1,4 @@
-// unittest.c
+// scrudu.c
 // Based on MinUnit
 // http://www.jera.com/techinfo/jtns/jtn002.html
 //
@@ -8,8 +8,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "unittest.h"
-#include "memcheck.h"
+#include "scrudu.h"
 
 // Unit Testing summary data
 int tests_run = 0;
