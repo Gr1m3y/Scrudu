@@ -49,6 +49,7 @@ void *memcheck_malloc(size_t size, const char *file, int line, const char *func)
 	allocation->size = size;
 	allocation->address = ptr;
 	allocation->next = NULL;
+
 	// Create an opportunity for a buffer overflow attack.
 	strcpy( allocation->file, file );
 	strcpy( allocation->func, func );
@@ -59,6 +60,7 @@ void *memcheck_malloc(size_t size, const char *file, int line, const char *func)
 
 	// Add the allocation to the table at the end
   memory_table.total += size;
+  memory_table.leak_size += size;
   memory_table.entries += 1;
   // Case this is not the first entry
   if ( memory_table.head ) {
@@ -71,8 +73,6 @@ void *memcheck_malloc(size_t size, const char *file, int line, const char *func)
      memory_table.head = allocation;
      memory_table.tail = allocation;
   }
-
-
 
 	return ptr;
 }
@@ -115,9 +115,13 @@ void memcheck_free( void *ptr ) {
 	if ( memory_table.head->address == ptr) {
 		cursor = memory_table.head;			// Point to entry to be deleted
 		memory_table.head = cursor->next;	// Adjust head pointer
+    memory_table.leak_size -= cursor->size;
 		memory_table.entries -= 1;
-		MEM_PRINT("freeing memory at %zu\n", ptr);
-		free(cursor);
+    printf("made it here\n");
+		printf("freeing memory at %p\n", ptr);
+    printf("made it here2\n");
+    free(cursor);
+
 		return;
 	}
 
@@ -148,10 +152,11 @@ void memcheck_free( void *ptr ) {
 			memory_table.tail = NULL;
 		}
 
-		MEM_PRINT("freeing memory at %zu\n", ptr);
+		printf("freeing memory at %p\n", ptr);
 
 		// Update memory_table's number of entries.
 		memory_table.entries -= 1;
+    memory_table.leak_size -= cursor->size;
 		free(cursor);	// Free the data
 		return;
 	}
@@ -171,8 +176,9 @@ void memcheck_free( void *ptr ) {
 		cursor->next = back->next;	// no check needed here, since this
 									// cannot be the last node, we checked
 									// for that already.
-		MEM_PRINT("freeing memory at %zu\n", ptr);
+		printf("freeing memory at %p\n", ptr);
 		memory_table.entries -= 1;
+    memory_table.leak_size -= cursor->size;
 		free(cursor);
 	}
 	return;
@@ -192,7 +198,12 @@ void memcheck_printtable() {
 				cursor->line, cursor->func, cursor->size);
         cursor = cursor->next;
 	}
-	printf("\n*****SUMMARY*****\n");
-	printf("Total bytes allocated: %zu\n", memory_table.total);
-	printf("Pointers not freed: %i", memory_table.entries);
+	printf("\n******MEMCHECK SUMMARY******\n");
+	printf("Total bytes allocated: %5zu\n", memory_table.total);
+	printf("Pointers not freed: %8i\n", memory_table.entries);
+  printf("Leaked memory: %13zu\n", memory_table.leak_size);
+  if ( memory_table.leak_size ) {
+    printf(" ***MEMORY LEAK DETECTED***\n");
+  }
+  printf("****************************\n");
 }

@@ -20,3 +20,4 @@
 
 #include "memcheck.h"
 #include "debug.h"
+#include "unittest.h"

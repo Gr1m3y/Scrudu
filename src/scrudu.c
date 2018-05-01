@@ -17,13 +17,14 @@ int tests_failed = 0;
 int asserts_passed = 0;
 int asserts_failed = 0;
 
-// Sample functions
+// Sample function
 int square(int x) {
 	return x*x;
 }
 
-// WRITE TESTS HERE
-/*******************************************************************/
+/***********************************************************************
+ * WRITE TESTS HERE
+ ***********************************************************************/
 
 // Example
 int square_test() {
@@ -37,14 +38,18 @@ int main(int argc, char **argv) {
 
 	printf("Starting test driver...\n\n");
 
-	/*******************************************************************/
-	// RUN TESTS HERE
+	/**********************************************************************
+	 * RUN TESTS HERE
+	 **********************************************************************/
 
+	// Unit test example
 	ut_run( square_test );
-	void *test = malloc(sizeof(int));
-	free(test);
+	// Example of memcheck
+	void *test_integer = malloc(sizeof(int));
+	//free(test_integer);
 
-	/*******************************************************************/
+	/**********************************************************************/
+	// Print out a summary of the results
 	printf("\n**********RESULTS**********\n");
 
 	if ( tests_run ) {
@@ -59,14 +64,4 @@ int main(int argc, char **argv) {
 	memcheck_printtable();
 
 	return tests_failed;
-}
-
-/************************************************************************
- * Testing Functions, do not modify code below this line.
- ************************************************************************/
-
-void *debug_malloc( size_t size, const char *file, int line, const char *func ) {
-	void *p = malloc(size);		// allocate object with a normal call to malloc
-	DBG_PRINT( "Allocated = %s, %i, %s, %p[%li]\n", file, line, func, p, size );
-	return p;
 }

@@ -53,4 +53,5 @@
   } while (0)
 #else
 #define MEM_PRINT(fmt, args...)
+#endif
 #endif /* debug_h */
