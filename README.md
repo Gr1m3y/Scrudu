@@ -23,8 +23,8 @@ freed.
 ## Flags
 The interface uses several flags that must be defined for certain functionality
 to work. These are listed below.
--MEMCHECK - Enables malloc and free wrappers for memory analysis.
--LOG      - Enables log printing (least information)
--DEBUG    - Enables debug printing (some information)
--ERR      - Enables error printing (all information)
--VERBOSE  - Prints more detailed unit test summaries (i.e. all asserts)
+*MEMCHECK - Enables malloc and free wrappers for memory analysis.
+*LOG      - Enables log printing (least information)
+*DEBUG    - Enables debug printing (some information)
+*ERR      - Enables error printing (all information)
+*VERBOSE  - Prints more detailed unit test summaries (i.e. all asserts)
