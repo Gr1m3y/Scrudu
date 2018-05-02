@@ -57,3 +57,19 @@ int main() {
   return 0;
 }
 ```
+
+## The Road Ahead
+
+I have many plans for this suite, and in all likelihood will add them as they
+become relevant, especially over the course of my current projects. I would like
+to implement wrappers for some of the other methods of allocating memory
+(realloc, etc.) This is the big change that will likely happen in the near
+future. Other changes I will add to this part of the readme as I think of them,
+or as they become something that I need. In addition to this, I would like to,
+for the sake of being in good habit, update the documentation on usage to be
+thorough and approachable, especially for people who do not have much of a
+background with computer science or programming. This will include in-line
+documentation, as well as this readme, and a log file.
+
+I hope that anyone who uses this finds it helpful, and hopefully it can teach
+something as well!
