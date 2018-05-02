@@ -6,6 +6,9 @@
 
 #include "memcheck.h"
 
+// We don't want these defined for this file, since it would prevent the proper
+// malloc from being called by the wrapper functions (i.e. it memcheck_malloc
+// would call memcheck_malloc would call memcheck_malloc... ad infinitum).
 #undef malloc
 #undef free
 /************************************************************************
@@ -23,11 +26,13 @@
 // Desc:
 //    A wrapper for malloc, which stores data about the allocation into them
 //    memory table variable. This can later be printed for debugging purposes.
-void *memcheck_malloc(size_t size, const char *file, int line, const char *func) {
+void *memcheck_malloc(size_t size, const char *file, int line,
+                      const char *func) {
 
   // Allocate requested space and report it.
 	void *ptr = malloc(size);
-	printf("[Allocation]%s: %i (%s),\t%p[%zu bytes]\n", file, line, func, ptr, size);
+	printf("[Allocation]%s: %i (%s),\t%p[%zu bytes]\n", file, line, func, ptr,
+          size);
 
 	// Check that the pointer was allocated
 	if ( !ptr ) {
@@ -100,8 +105,9 @@ void memcheck_free( void *ptr ) {
 
 	// First check that the list is non empty
 	if ( !(memory_table.head) ) {
-		ERR_PRINT("attempted to free memory when nothing was allocated");
-		// Force a crash, like normal
+		DBG_PRINT("attempted to free memory when nothing was allocated");
+		// Force normal behaviour, then return as per usual. Should crash
+    // in some cases, depending on the compiler I believe...
 		free(ptr);
 		return;	// Shouldn't actually hit this, but just in case
 	}
@@ -117,9 +123,7 @@ void memcheck_free( void *ptr ) {
 		memory_table.head = cursor->next;	// Adjust head pointer
     memory_table.leak_size -= cursor->size;
 		memory_table.entries -= 1;
-    printf("made it here\n");
 		printf("freeing memory at %p\n", ptr);
-    printf("made it here2\n");
     free(cursor);
 
 		return;
@@ -193,8 +197,9 @@ void memcheck_free( void *ptr ) {
 void memcheck_printtable() {
 	Allocation *cursor = memory_table.head;
 
+  printf("\n***Remaining allocations***\n");
 	while ( cursor ) {
-		printf("Allocation @ %p: %s:%i (%s), %zu\n", cursor->address, cursor->file,
+		printf("Allocation @ %p: %s:%i (%s), %zu bytes\n", cursor->address, cursor->file,
 				cursor->line, cursor->func, cursor->size);
         cursor = cursor->next;
 	}

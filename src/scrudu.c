@@ -10,20 +10,20 @@
 #include <string.h>
 #include "scrudu.h"
 
-// Unit Testing summary data
+// Unit Testing summary data [DO NOT CHANGE]
 int tests_run = 0;
 int tests_passed = 0;
 int tests_failed = 0;
 int asserts_passed = 0;
 int asserts_failed = 0;
 
-// Sample function
+// Sample function [this can be removed]
 int square(int x) {
 	return x*x;
 }
 
 /***********************************************************************
- * WRITE TESTS HERE
+ * WRITE TESTS HERE [MODIFY THIS SECTIONS]
  ***********************************************************************/
 
 // Example
@@ -39,17 +39,24 @@ int main(int argc, char **argv) {
 	printf("Starting test driver...\n\n");
 
 	/**********************************************************************
-	 * RUN TESTS HERE
+	 * RUN TESTS HERE [MODIFY THIS SECTION]
 	 **********************************************************************/
 
 	// Unit test example
 	ut_run( square_test );
-	// Example of memcheck
-	void *test_integer = malloc(sizeof(int));
-	//free(test_integer);
+	// Examples of memcheck
+	// Note that if MEMCHECK is defined, allocations and frees will be reported.
+	void *int_1 = malloc(sizeof(int));
+	int *int_2 = malloc(sizeof(uint64_t));
+	int *int_3 = malloc(sizeof(char));
+	free(int_1);
+	free(int_3);
+	free(int_2);
+	free(NULL);
 
-	/**********************************************************************/
-	// Print out a summary of the results
+	/**********************************************************************
+	* Print out a summary of the results [DO NOT MODIFY BELOW HERE]
+	***********************************************************************/
 	printf("\n**********RESULTS**********\n");
 
 	if ( tests_run ) {

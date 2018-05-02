@@ -33,19 +33,19 @@
 // ut_assert succeeded).
 #ifndef VERBOSE		// Only presents information for each test
 // assert function for test
-#define assert_SUCCESS() do { \
+#define assert_SUCCESS() do { 	\
 	asserts_passed++; } while(0)
-#define assert_FAIL() do {	\
+#define assert_FAIL() do {			\
 	asserts_failed++; } while(0)
 
-#define ut_assert(test) do {\
+#define ut_assert(test) do {									\
 	if (!(test)) { assert_FAIL() ; } 						\
 	else { assert_SUCCESS() ; } } while (0)
 
 #define ut_run(test) do { printf( "%-30s",#test "..." );	\
-	int current = asserts_failed;					\
-	test(); tests_run++;							\
-	if( asserts_failed-current ) { FAIL(); }		\
+	int current = asserts_failed;														\
+	test(); tests_run++;																		\
+	if( asserts_failed-current ) { FAIL(); }								\
 	else { SUCCESS(); } } while(0)
 
 
@@ -55,19 +55,19 @@
 // ut_assert, as well as the overall result of each test.
 #define assert_SUCCESS() do { printf("[ " GRN "OK" RST " ]\n"); \
 	asserts_passed++; } while(0)
-#define assert_FAIL() do { printf("[" RED "FAIL" RST "]\n"); 	\
+#define assert_FAIL() do { printf("[" RED "FAIL" RST "]\n"); 		\
 	asserts_failed++; } while(0)
 
 
 #define ut_assert(test) do { printf("\tLine: %-15d", __LINE__); 	\
-	if (!(test)) { assert_FAIL() ; } 						\
+	if (!(test)) { assert_FAIL() ; } 																\
 	else { assert_SUCCESS() ; } } while (0)
 
 #define ut_run(test) do { printf( #test "...\n" );	\
-	int current = asserts_failed;					\
-	test(); tests_run++;							\
-	printf("%-35s", "Result:");						\
-	if( asserts_failed-current ) { FAIL(); }		\
+	int current = asserts_failed;											\
+	test(); tests_run++;															\
+	printf("%-35s", "Result:");												\
+	if( asserts_failed-current ) { FAIL(); }					\
 	else { SUCCESS(); } } while(0)
 
 #endif /* verbose */

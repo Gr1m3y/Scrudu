@@ -36,11 +36,11 @@
 
 /* error */
 #ifdef ERR
-#define ERR_PRINT(fmt, args...)											\
-	do {																\
-		fprintf(stderr, "\(ERR)\t");									\
-		fprintf(stderr, "%s:%d:%s(): " fmt,								\
-				__FILE__, __LINE__, __func__, ##args);					\
+#define ERR_PRINT(fmt, args...)										\
+	do {																            \
+		fprintf(stderr, "\(ERR)\t");								  \
+		fprintf(stderr, "%s:%d:%s(): " fmt,						\
+				__FILE__, __LINE__, __func__, ##args);		\
 	} while (0)
 #else
 #define ERR_PRINT(fmt, args...)
