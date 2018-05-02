@@ -1,4 +1,4 @@
-# Scrudu
+# Scrúdú
 A testing framework for C development.
 
 ## Introduction
