@@ -31,7 +31,7 @@ void *memcheck_malloc(size_t size, const char *file, int line,
 
   // Allocate requested space and report it.
 	void *ptr = malloc(size);
-	printf("[Allocation]%s: %i (%s),\t%p[%zu bytes]\n", file, line, func, ptr,
+	MEM_PRINT("[Allocation]%s: %i (%s),\t%p[%zu bytes]\n", file, line, func, ptr,
           size);
 
 	// Check that the pointer was allocated
@@ -121,10 +121,10 @@ void memcheck_free( void *ptr ) {
 	if ( memory_table.head->address == ptr) {
 		cursor = memory_table.head;			// Point to entry to be deleted
 		memory_table.head = cursor->next;	// Adjust head pointer
-    memory_table.leak_size -= cursor->size;
+    	memory_table.leak_size -= cursor->size;
 		memory_table.entries -= 1;
-		printf("freeing memory at %p\n", ptr);
-    free(cursor);
+		MEM_PRINT("freeing memory at %p\n", ptr);
+    	free(cursor);
 
 		return;
 	}
@@ -156,7 +156,7 @@ void memcheck_free( void *ptr ) {
 			memory_table.tail = NULL;
 		}
 
-		printf("freeing memory at %p\n", ptr);
+		MEM_PRINT("freeing memory at %p\n", ptr);
 
 		// Update memory_table's number of entries.
 		memory_table.entries -= 1;
@@ -180,7 +180,7 @@ void memcheck_free( void *ptr ) {
 		cursor->next = back->next;	// no check needed here, since this
 									// cannot be the last node, we checked
 									// for that already.
-		printf("freeing memory at %p\n", ptr);
+		MEM_PRINT("freeing memory at %p\n", ptr);
 		memory_table.entries -= 1;
     memory_table.leak_size -= cursor->size;
 		free(cursor);

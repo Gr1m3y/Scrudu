@@ -63,10 +63,10 @@
 #define ERR_PRINT(fmt, args...)
 #endif /* error */
 
-#ifdef MEMCHECK
+#ifdef VERMEM
 #define MEM_PRINT(fmt, args...)       \
   do {                                \
-    fprintf(fmt, ##args);             \
+    printf(fmt, ##args);             \
   } while (0)
 #else
 #define MEM_PRINT(fmt, args...)

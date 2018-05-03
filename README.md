@@ -28,6 +28,7 @@ to work. These are listed below.
 * DEBUG    - Enables debug printing (some information)
 * ERR      - Enables error printing (all information)
 * VERBOSE  - Prints more detailed unit test summaries (i.e. all asserts)
+* VERMEM   - Verbose memory printing (i.e. prints all alloctions and frees)
 
 ## Example of Usage
 Unit testing is relatively simple here. Simply add the code to your project,
