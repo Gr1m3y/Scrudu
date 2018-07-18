@@ -124,6 +124,7 @@ void memcheck_free( void *ptr ) {
     	memory_table.leak_size -= cursor->size;
 		memory_table.entries -= 1;
 		MEM_PRINT("freeing memory at %p\n", ptr);
+    	free(cursor->address);
     	free(cursor);
 
 		return;
@@ -160,7 +161,8 @@ void memcheck_free( void *ptr ) {
 
 		// Update memory_table's number of entries.
 		memory_table.entries -= 1;
-    memory_table.leak_size -= cursor->size;
+    	memory_table.leak_size -= cursor->size;
+    	free(cursor->address);
 		free(cursor);	// Free the data
 		return;
 	}
@@ -176,13 +178,16 @@ void memcheck_free( void *ptr ) {
 		cursor = cursor->next;
 	}
 	if ( cursor ) {
-		back = cursor->next;
+		back = cursor;
+		cursor = back->next;
 		cursor->next = back->next;	// no check needed here, since this
 									// cannot be the last node, we checked
 									// for that already.
+		back->next = cursor->next;
 		MEM_PRINT("freeing memory at %p\n", ptr);
 		memory_table.entries -= 1;
-    memory_table.leak_size -= cursor->size;
+    	memory_table.leak_size -= cursor->size;
+		free(cursor->address);
 		free(cursor);
 	}
 	return;
